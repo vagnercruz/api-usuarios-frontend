@@ -36,7 +36,12 @@ export class UsuariosService {
     return this.http.put<Usuario>(`${this.apiUrl}/${id}`, usuario);
   }
 
-  remover(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  remover(id: string) {
+  if (confirm('Tem certeza que deseja excluir este usuário?')) {
+    this.usuariosService.remover(id).subscribe({
+      next: () => this.carregar(),
+      error: () => this.erro = 'Erro ao excluir usuário'
+    });
   }
+}
 }  
