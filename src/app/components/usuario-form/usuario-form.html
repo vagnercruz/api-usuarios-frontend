@@ -1,1 +1,76 @@
-<p>usuario-form works!</p>
+<h2 *ngIf="!usuarioId">Novo Usuário</h2>
+<h2 *ngIf="usuarioId">Editar Usuário</h2>
+
+<form [formGroup]="form" (ngSubmit)="salvar()">
+
+  <!-- Nome -->
+  <div>
+    <label for="nome">Nome</label>
+    <input id="nome" type="text" formControlName="nome" />
+    <div *ngIf="form.controls['nome'].touched && form.controls['nome'].invalid" class="erro">
+      <span *ngIf="form.controls['nome'].errors?.['required']">O nome é obrigatório.</span>
+      <span *ngIf="form.controls['nome'].errors?.['minlength']">O nome deve ter pelo menos 2 caracteres.</span>
+    </div>
+  </div>
+
+  <!-- Sobrenome -->
+  <div>
+    <label for="sobrenome">Sobrenome</label>
+    <input id="sobrenome" type="text" formControlName="sobrenome" />
+    <div *ngIf="form.controls['sobrenome'].touched && form.controls['sobrenome'].invalid" class="erro">
+      <span *ngIf="form.controls['sobrenome'].errors?.['required']">O sobrenome é obrigatório.</span>
+      <span *ngIf="form.controls['sobrenome'].errors?.['minlength']">O sobrenome deve ter pelo menos 2 caracteres.</span>
+    </div>
+  </div>
+
+  <!-- Idade -->
+  <div>
+    <label for="idade">Idade</label>
+    <input id="idade" type="number" formControlName="idade" />
+    <div *ngIf="form.controls['idade'].touched && form.controls['idade'].invalid" class="erro">
+      <span *ngIf="form.controls['idade'].errors?.['required']">A idade é obrigatória.</span>
+      <span *ngIf="form.controls['idade'].errors?.['min']">A idade mínima é 0.</span>
+      <span *ngIf="form.controls['idade'].errors?.['max']">A idade máxima é 120.</span>
+    </div>
+  </div>
+
+  <!-- Profissão -->
+  <div>
+    <label for="profissao">Profissão</label>
+    <input id="profissao" type="text" formControlName="profissao" />
+    <div *ngIf="form.controls['profissao'].touched && form.controls['profissao'].invalid" class="erro">
+      <span *ngIf="form.controls['profissao'].errors?.['required']">A profissão é obrigatória.</span>
+    </div>
+  </div>
+
+  <!-- Cidade -->
+  <div>
+    <label for="cidade">Cidade</label>
+    <input id="cidade" type="text" formControlName="cidade" />
+    <div *ngIf="form.controls['cidade'].touched && form.controls['cidade'].invalid" class="erro">
+      <span *ngIf="form.controls['cidade'].errors?.['required']">A cidade é obrigatória.</span>
+    </div>
+  </div>
+
+  <!-- Estado -->
+  <div>
+    <label for="estado">Estado</label>
+    <select id="estado" formControlName="estado">
+      <option value="">Selecione</option>
+      <option *ngFor="let uf of ufs" [value]="uf">{{ uf }}</option>
+    </select>
+    <div *ngIf="form.controls['estado'].touched && form.controls['estado'].invalid" class="erro">
+      <span *ngIf="form.controls['estado'].errors?.['required']">O estado é obrigatório.</span>
+    </div>
+  </div>
+
+  <!-- Botão -->
+  <button type="submit" [disabled]="form.invalid">
+    {{ usuarioId ? 'Salvar Alterações' : 'Criar Usuário' }}
+  </button>
+</form>
+
+<!-- Mensagem de feedback -->
+<div *ngIf="mensagem" class="mensagem">
+  {{ mensagem }}
+</div>
