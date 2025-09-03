@@ -1,44 +1,75 @@
-<h2>Lista de Usuários</h2>
+<mat-card>
+  <mat-toolbar color="primary">
+    <span>Usuários</span>
+    <span class="spacer"></span>
+    <button mat-raised-button color="accent" [routerLink]="['/novo']">
+      Novo Usuário
+    </button>
+  </mat-toolbar>
+  
 
-<div *ngIf="carregando">Carregando usuários...</div>
-<div *ngIf="erro" class="erro">{{ erro }}</div>
+  <mat-card-content>
+    <div *ngIf="carregando" class="spinner-container">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
 
-<p>
-  <a routerLink="/novo">
-    <button>Novo Usuário</button>
-  </a>
-</p>
+    <!-- Filtro -->
+    <mat-form-field appearance="outline" class="full-width" *ngIf="!carregando">
+      <mat-label>Pesquisar usuário</mat-label>
+      <input matInput (keyup)="aplicarFiltro($event)" placeholder="Ex: Bruno, Curitiba, QA...">
+    </mat-form-field>
 
-<table *ngIf="usuarios.length">
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>Sobrenome</th>
-      <th>Idade</th>
-      <th>Profissão</th>
-      <th>Cidade</th>
-      <th>Estado</th>
-      <th>Ações</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let u of usuarios">
-      <td>{{ u.nome }}</td>
-      <td>{{ u.sobrenome }}</td>
-      <td>{{ u.idade }}</td>
-      <td>{{ u.profissao }}</td>
-      <td>{{ u.cidade }}</td>
-      <td>{{ u.estado }}</td>
-      <td>
-        <a [routerLink]="['/editar', u.id]">
-          <button>Editar</button>
-        </a>
-        <button (click)="remover(u.id)">Excluir</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <!-- Tabela -->
+    <table *ngIf="!carregando" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-<div *ngIf="!carregando && !usuarios.length">
-  Nenhum usuário cadastrado.
-</div>
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+        <td mat-cell *matCellDef="let usuario"> {{ usuario.nome }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sobrenome">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Sobrenome </th>
+        <td mat-cell *matCellDef="let usuario"> {{ usuario.sobrenome }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="idade">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Idade </th>
+        <td mat-cell *matCellDef="let usuario"> {{ usuario.idade }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="profissao">
+        <th mat-header-cell *matHeaderCellDef> Profissão </th>
+        <td mat-cell *matCellDef="let usuario"> {{ usuario.profissao }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cidade">
+        <th mat-header-cell *matHeaderCellDef> Cidade </th>
+        <td mat-cell *matCellDef="let usuario"> {{ usuario.cidade }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let usuario"> {{ usuario.estado }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef> Ações </th>
+        <td mat-cell *matCellDef="let usuario">
+          <button mat-icon-button color="primary" [routerLink]="['/editar', usuario.id]">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="remover(usuario.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Header & Rows -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <!-- Paginator -->
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+</mat-card>

@@ -1,55 +1,89 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { UsuariosService } from '../../services/usuarios';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-const UFS = [
-  'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA',
-  'MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN',
-  'RS','RO','RR','SC','SP','SE','TO'
-];
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { UsuariosService, Usuario } from '../../services/usuarios';
+import { Observable } from 'rxjs';
+import { switchMap, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-usuario-form',
   standalone: true,
   templateUrl: './usuario-form.html',
-  imports: [ReactiveFormsModule, CommonModule]
+  styleUrls: ['./usuario-form.css'],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule
+  ]
 })
 export class UsuarioFormComponent implements OnInit {
-  @Input() usuarioId?: string;
-  ufs = UFS;
-  mensagem: string | null = null;
+  form!: FormGroup;
+  usuarioId: string | null = null;
+  usuario$!: Observable<Usuario | null>;
 
-  form: any;
+  estados: string[] = [
+    'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 
+    'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 
+    'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
+  ];
+  
 
-  constructor(private fb: FormBuilder, private usuariosService: UsuariosService) {}
+  constructor(
+    private fb: FormBuilder,
+    private usuariosService: UsuariosService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+    // inicializa o form aqui
     this.form = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(2)]],
       sobrenome: ['', [Validators.required, Validators.minLength(2)]],
-      idade: [null, [Validators.required, Validators.min(0), Validators.max(120)]],
-      profissao: ['', [Validators.required]],
-      cidade: ['', [Validators.required]],
-      estado: ['', [Validators.required]]
+      idade: [null as number | null, [Validators.required, Validators.min(0), Validators.max(120)]],
+      profissao: ['', Validators.required],
+      cidade: ['', Validators.required],
+      estado: ['', Validators.required],
     });
 
-    if (this.usuarioId) {
-      this.usuariosService.buscar(this.usuarioId).subscribe(u => this.form.patchValue(u));
-    }
+    // se for edição
+    this.usuario$ = this.route.paramMap.pipe(
+      filter(params => params.has('id')),
+      switchMap(params => {
+        this.usuarioId = params.get('id');
+        return this.usuariosService.buscar(this.usuarioId!);
+      })
+    );
+
+    this.usuario$.subscribe(usuario => {
+      if (usuario) {
+        this.form.patchValue(usuario);
+      }
+    });
   }
 
-  salvar(): void {
-    const dados = this.form.value as any;
+  salvar() {
+    if (this.form.invalid) return;
+
+    const dados = this.form.getRawValue() as Omit<Usuario, 'id'>;
+
     if (this.usuarioId) {
-      this.usuariosService.atualizar(this.usuarioId, dados).subscribe({
-        next: () => this.mensagem = 'Usuário atualizado com sucesso',
-        error: () => this.mensagem = 'Erro ao atualizar usuário'
+      this.usuariosService.atualizar(this.usuarioId, dados).subscribe(() => {
+        this.router.navigate(['/usuarios']);
       });
     } else {
-      this.usuariosService.criar(dados).subscribe({
-        next: () => this.mensagem = 'Usuário criado com sucesso',
-        error: () => this.mensagem = 'Erro ao criar usuário'
+      this.usuariosService.criar(dados).subscribe(() => {
+        this.router.navigate(['/usuarios']);
       });
     }
   }

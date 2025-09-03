@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
 import { UsuarioFormComponent } from './components/usuario-form/usuario-form';
 import { UsuariosListaComponent } from './components/usuarios-lista/usuarios-lista';
-import { Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', component: UsuariosListaComponent },
@@ -11,9 +10,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
