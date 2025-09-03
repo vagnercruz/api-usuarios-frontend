@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { UsuariosService } from '../../services/usuarios';
+import { CommonModule } from '@angular/common';
 
 const UFS = [
   'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA',
@@ -10,7 +11,9 @@ const UFS = [
 
 @Component({
   selector: 'app-usuario-form',
-  templateUrl: './usuario-form.html'
+  standalone: true,
+  templateUrl: './usuario-form.html',
+  imports: [ReactiveFormsModule, CommonModule]
 })
 export class UsuarioFormComponent implements OnInit {
   @Input() usuarioId?: string;

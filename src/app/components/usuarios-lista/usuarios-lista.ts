@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuariosService, Usuario } from '../../services/usuarios';
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios-lista',
+  standalone: true,
   templateUrl: './usuarios-lista.html',
-  imports: [NgIf],
+  imports: [CommonModule, RouterModule]
 })
 export class UsuariosListaComponent implements OnInit {
-[x: string]: any;
+  // Remova a linha [x: string]: any;
   usuarios: Usuario[] = [];
   carregando = false;
   erro: string | null = null;
@@ -16,7 +18,7 @@ export class UsuariosListaComponent implements OnInit {
   constructor(private UsuariosService: UsuariosService) {}
 
   ngOnInit(): void {
-      this.carregar();
+    this.carregar();
   }
 
   carregar() {
@@ -30,9 +32,17 @@ export class UsuariosListaComponent implements OnInit {
         this.erro = 'Erro ao carregar usuários';
         this.carregando = false;
       }
-    })
+    });
   }
-}  
-export class UsuariosLista {
 
+  remover(id: string): void {
+    this.UsuariosService.remover(id).subscribe({
+      next: () => {
+        this.carregar();
+      },
+      error: () => {
+        this.erro = 'Erro ao remover usuário';
+      }
+    });
+  }
 }
