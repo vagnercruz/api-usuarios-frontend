@@ -1,59 +1,115 @@
-# ApiUsuariosFrontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+---
 
-## Development server
+# 📖 README.md
 
-To start a local development server, run:
+````markdown
+# 📌 Projeto API Usuários + Frontend Angular
 
+Este projeto é composto por:
+- **Backend (Node.js + Express)** → uma API REST para gerenciar usuários.
+- **Frontend (Angular + Angular Material)** → uma interface moderna para consumir a API.
+
+---
+
+## ⚙️ Tecnologias utilizadas
+- **Node.js** (v22+)
+- **Express**
+- **Angular 20**
+- **Angular Material**
+- **RxJS**
+- **TypeScript**
+
+---
+
+## 🚀 Como rodar o projeto
+
+### 🔹 1. Clonar o repositório
 ```bash
-ng serve
+git clone https://github.com/seu-usuario/api-usuarios.git
+cd api-usuarios
+````
+
+---
+
+### 🔹 2. Rodar o Backend
+
+1. Entrar na pasta do backend:
+
+   ```bash
+   cd api-usuarios
+   ```
+2. Instalar dependências:
+
+   ```bash
+   npm install
+   ```
+3. Rodar servidor:
+
+   ```bash
+   npm start
+   ```
+
+👉 O backend ficará disponível em:
+**[http://localhost:3333](http://localhost:3333)**
+
+Se quiser ver a documentação **Swagger**:
+**[http://localhost:3333/docs](http://localhost:3333/docs)**
+
+---
+
+### 🔹 3. Rodar o Frontend
+
+1. Entrar na pasta do frontend:
+
+   ```bash
+   cd api-usuarios-frontend
+   ```
+2. Instalar dependências:
+
+   ```bash
+   npm install
+   ```
+3. Rodar aplicação:
+
+   ```bash
+   ng serve
+   ```
+
+👉 O frontend ficará disponível em:
+**[http://localhost:4200](http://localhost:4200)**
+
+---
+
+## 📂 Estrutura do Projeto
+
+```
+api-usuarios/             # Backend (Node + Express)
+ ├── src/
+ │   ├── server.js        # Configuração principal do servidor
+ │   ├── routes/usuarios  # Rotas da API
+ │   └── data/users.json  # Base de dados local (mock)
+ │
+api-usuarios-frontend/    # Frontend (Angular + Material)
+ ├── src/app/
+ │   ├── components/      # Componentes (formulário, lista, etc.)
+ │   ├── services/        # Serviços (consumo da API)
+ │   └── app.routes.ts    # Rotas da aplicação
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 📌 Funcionalidades
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+✔️ Listar usuários
+✔️ Criar usuário
+✔️ Editar usuário
+✔️ Remover usuário
+✔️ Validação de formulário
+✔️ UI responsiva com Angular Material
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 👨‍💻 Autor
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Projeto desenvolvido por **Vagner** 🚀
