@@ -17,29 +17,26 @@ export class UsuarioFormComponent implements OnInit {
   ufs = UFS;
   mensagem: string | null = null;
 
-  form = this.fb.group({
-    nome: ['', [Validators.required, Validators.minLength(2)]],
-    sobrenome: ['', [Validators.required, Validators.minLength(2)]],
-    idade: [null, [Validators.required, Validators.min(0), Validators.max(120)]],
-    profissao: ['', [Validators.required]],
-    cidade: ['', [Validators.required]],
-    estado: ['', [Validators.required]]
-  });
+  form: any;
 
   constructor(private fb: FormBuilder, private usuariosService: UsuariosService) {}
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      nome: ['', [Validators.required, Validators.minLength(2)]],
+      sobrenome: ['', [Validators.required, Validators.minLength(2)]],
+      idade: [null, [Validators.required, Validators.min(0), Validators.max(120)]],
+      profissao: ['', [Validators.required]],
+      cidade: ['', [Validators.required]],
+      estado: ['', [Validators.required]]
+    });
+
     if (this.usuarioId) {
       this.usuariosService.buscar(this.usuarioId).subscribe(u => this.form.patchValue(u));
     }
   }
 
-  salvar() {
-    if (this.form.invalid) {
-      this.mensagem = 'Formulário inválido, verifique os campos.';
-      return;
-    }
-
+  salvar(): void {
     const dados = this.form.value as any;
     if (this.usuarioId) {
       this.usuariosService.atualizar(this.usuarioId, dados).subscribe({

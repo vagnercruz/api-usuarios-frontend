@@ -17,6 +17,7 @@ export interface Usuario{
 })
 export class UsuariosService {
    private apiUrl = 'http://localhost:3333/usuarios';
+   erro: string | null = null;
 
    constructor(private http: HttpClient) {}
 
@@ -36,10 +37,14 @@ export class UsuariosService {
     return this.http.put<Usuario>(`${this.apiUrl}/${id}`, usuario);
   }
 
-  remover(id: string) {
+remover(id: string): Observable<void> {
+  return this.http.delete<void>(`${this.apiUrl}/${id}`);
+}
+
+confirmarRemocao(id: string) {
   if (confirm('Tem certeza que deseja excluir este usuário?')) {
-    this.usuariosService.remover(id).subscribe({
-      next: () => this.carregar(),
+    this.remover(id).subscribe({
+      next: () => {},
       error: () => this.erro = 'Erro ao excluir usuário'
     });
   }

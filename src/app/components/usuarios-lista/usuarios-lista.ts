@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuariosService, Usuario } from '../../services/usuarios';
-import { NgIf } from "../../../../node_modules/@angular/common/common_module.d";
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-usuarios-lista',
@@ -8,6 +8,7 @@ import { NgIf } from "../../../../node_modules/@angular/common/common_module.d";
   imports: [NgIf],
 })
 export class UsuariosListaComponent implements OnInit {
+[x: string]: any;
   usuarios: Usuario[] = [];
   carregando = false;
   erro: string | null = null;

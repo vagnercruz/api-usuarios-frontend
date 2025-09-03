@@ -1,5 +1,27 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { UsuariosListaComponent } from './usuarios-lista.component';
+
+@NgModule({
+  declarations: [UsuariosListaComponent],
+  imports: [
+    CommonModule,
+    RouterModule
+  ]
+})
+export class UsuariosListaModule { }
+
+<h2>Lista de Usuários</h2>
+
 <div *ngIf="carregando">Carregando usuários...</div>
-<div *ngIf="erro">{{ erro }}</div>
+<div *ngIf="erro" class="erro">{{ erro }}</div>
+
+<p>
+  <a routerLink="/novo">
+    <button>Novo Usuário</button>
+  </a>
+</p>
 
 <table *ngIf="usuarios.length">
   <thead>
@@ -10,6 +32,7 @@
       <th>Profissão</th>
       <th>Cidade</th>
       <th>Estado</th>
+      <th>Ações</th>
     </tr>
   </thead>
   <tbody>
@@ -20,6 +43,16 @@
       <td>{{ u.profissao }}</td>
       <td>{{ u.cidade }}</td>
       <td>{{ u.estado }}</td>
+      <td>
+        <a [routerLink]="['/editar', u.id]">
+          <button>Editar</button>
+        </a>
+        <button (click)="remover(u.id)">Excluir</button>
+      </td>
     </tr>
   </tbody>
 </table>
+
+<div *ngIf="!carregando && !usuarios.length">
+  Nenhum usuário cadastrado.
+</div>

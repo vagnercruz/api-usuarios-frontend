@@ -3,7 +3,6 @@
 
 <form [formGroup]="form" (ngSubmit)="salvar()">
 
-  <!-- Nome -->
   <div>
     <label for="nome">Nome</label>
     <input id="nome" type="text" formControlName="nome" />
@@ -13,7 +12,6 @@
     </div>
   </div>
 
-  <!-- Sobrenome -->
   <div>
     <label for="sobrenome">Sobrenome</label>
     <input id="sobrenome" type="text" formControlName="sobrenome" />
@@ -23,7 +21,6 @@
     </div>
   </div>
 
-  <!-- Idade -->
   <div>
     <label for="idade">Idade</label>
     <input id="idade" type="number" formControlName="idade" />
@@ -34,7 +31,6 @@
     </div>
   </div>
 
-  <!-- Profissão -->
   <div>
     <label for="profissao">Profissão</label>
     <input id="profissao" type="text" formControlName="profissao" />
@@ -43,7 +39,6 @@
     </div>
   </div>
 
-  <!-- Cidade -->
   <div>
     <label for="cidade">Cidade</label>
     <input id="cidade" type="text" formControlName="cidade" />
@@ -52,7 +47,6 @@
     </div>
   </div>
 
-  <!-- Estado -->
   <div>
     <label for="estado">Estado</label>
     <select id="estado" formControlName="estado">
@@ -64,13 +58,11 @@
     </div>
   </div>
 
-  <!-- Botão -->
   <button type="submit" [disabled]="form.invalid">
     {{ usuarioId ? 'Salvar Alterações' : 'Criar Usuário' }}
   </button>
 </form>
 
-<!-- Mensagem de feedback -->
 <div *ngIf="mensagem" class="mensagem">
   {{ mensagem }}
 </div>
