@@ -1,7 +1,4 @@
-
 ---
-
-# 📖 README.md
 
 ````markdown
 # 📌 Projeto API Usuários + Frontend Angular
