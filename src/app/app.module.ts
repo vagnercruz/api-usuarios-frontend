@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UsuarioFormComponent } from './components/usuario-form/usuario-form';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [],
@@ -13,6 +15,8 @@ import { UsuarioFormComponent } from './components/usuario-form/usuario-form';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    CommonModule,
+    RouterModule,
     AppComponent,
     UsuarioFormComponent,
   ],
