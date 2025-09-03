@@ -1,6 +1,3 @@
----
-
-````markdown
 # 📌 Projeto API Usuários + Frontend Angular
 
 Este projeto é composto por:
